@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VOLT COFFEE — Городские кофейни</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ── Фичи (3 колонки) ── */
+    .features {
+      padding: 72px 40px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .features__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      max-width: 1000px;
+      margin: 0 auto;
+      background: var(--border);
+    }
+    .feature {
+      background: var(--surface);
+      padding: 40px 32px;
+      position: relative;       /* ← relative для номера */
+    }
+    .feature__num {
+      position: absolute;       /* ← absolute */
+      top: 20px; right: 24px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4rem;
+      color: rgba(232,255,0,0.06);
+      line-height: 1;
+      pointer-events: none;
+    }
+    .feature__icon { font-size: 2rem; margin-bottom: 20px; }
+    .feature__title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .feature__text { font-size: 0.8rem; color: var(--muted); line-height: 1.7; }
+
+    /* ── Цитата ── */
+    .quote-block {
+      padding: 80px 40px;
+      display: flex;           /* Flexbox — центрирование */
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+    }
+    .quote-inner {
+      max-width: 680px;
+      text-align: center;
+      position: relative;      /* ← relative */
+    }
+    .quote-deco {
+      position: absolute;      /* ← absolute */
+      top: -32px; left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 8rem;
+      color: var(--volt);
+      opacity: 0.08;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+    .quote-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      letter-spacing: 0.04em;
+      line-height: 1.05;
+      color: var(--text);
+      position: relative;
+      z-index: 1;
+    }
+    .quote-text em { color: var(--volt); font-style: normal; }
+    .quote-author {
+      margin-top: 24px;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    @media (max-width: 900px) { .features__grid { grid-template-columns: 1fr; } }
+    @media (max-width: 600px) { .features { padding: 48px 20px; } .quote-block { padding: 56px 20px; } }
+  </style>
+</head>
+<body>
+
+  <!-- FIXED NAV -->
+  <nav class="nav">
+    <a href="index.html" class="nav__logo">VOLT</a>
+    <ul class="nav__links">
+      <li><a href="index.html" class="active">Главная</a></li>
+      <li><a href="menu.html">Меню</a></li>
+      <li><a href="about.html">О нас</a></li>
+      <li><a href="contact.html">Найти кофейню</a></li>
+      <li><a href="menu.html" class="nav__cta">Заказать</a></li>
+    </ul>
+  </nav>
+
+  <div class="page">
+
+    <!-- HERO (relative + absolute) -->
+    <section class="hero">
+      <div class="hero__wordmark">VOLT</div>
+      <div class="hero__line"></div>
+      <div class="hero__badge">Открыто 24/7</div>
+
+      <div class="hero__content">
+        <span class="hero__tag">Городская кофейня №1</span>
+        <h1 class="hero__title">КОФЕ<br>НА <em>ПОЛНОЙ</em><br>МОЩНОСТИ</h1>
+        <p class="hero__desc">Жареный в Москве. Сварен с точностью. Выпит с удовольствием. Три точки в городе — одна атмосфера.</p>
+        <div class="hero__actions">
+          <a href="menu.html" class="btn btn--volt">Смотреть меню</a>
+          <a href="contact.html" class="btn btn--ghost">Найти нас</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- TICKER -->
+    <div class="ticker">
+      <div class="ticker__inner">
+        <span class="ticker__item">Эспрессо</span><span class="ticker__sep">✦</span>
+        <span class="ticker__item">Фильтр</span><span class="ticker__sep">✦</span>
+        <span class="ticker__item">Холодный брю</span><span class="ticker__sep">✦</span>
+        <span class="ticker__item">Матча</span><span class="ticker__sep">✦</span>
+        <span class="ticker__item">Флэт уайт</span><span class="ticker__sep">✦</span>
+        <span class="ticker__item">Обжарка на месте</span><span class="ticker__sep">✦</span>
+        <span class="ticker__item">Работаем 24/7</span><span class="ticker__sep">✦</span>
+        <span class="ticker__item">Wi-Fi · Розетки</span><span class="ticker__sep">✦</span>
+        <!-- дубль для бесшовной прокрутки -->
+        <span class="ticker__item">Эспрессо</span><span class="ticker__sep">✦</span>
+        <span class="ticker__item">Фильтр</span><span class="ticker__sep">✦</span>
+        <span class="ticker__item">Холодный брю</span><span class="ticker__sep">✦</span>
+        <span class="ticker__item">Матча</span><span class="ticker__sep">✦</span>
+        <span class="ticker__item">Флэт уайт</span><span class="ticker__sep">✦</span>
+        <span class="ticker__item">Обжарка на месте</span><span class="ticker__sep">✦</span>
+        <span class="ticker__item">Работаем 24/7</span><span class="ticker__sep">✦</span>
+        <span class="ticker__item">Wi-Fi · Розетки</span><span class="ticker__sep">✦</span>
+      </div>
+    </div>
+
+    <!-- STICKY HEADER -->
+    <div class="section-header">
+      <span class="section-header__num">01</span>
+      <span class="section-header__title">Почему VOLT</span>
+      <div class="section-header__line"></div>
+    </div>
+
+    <!-- ФИЧИ (Grid + relative/absolute) -->
+    <section class="features">
+      <div class="features__grid">
+        <div class="feature">
+          <div class="feature__num">01</div>
+          <div class="feature__icon">☕</div>
+          <h3 class="feature__title">Собственная обжарка</h3>
+          <p class="feature__text">Зерно прямиком с ферм Эфиопии, Колумбии и Гватемалы. Обжариваем сами — каждую неделю свежий урожай.</p>
+        </div>
+        <div class="feature">
+          <div class="feature__num">02</div>
+          <div class="feature__icon">⚡</div>
+          <h3 class="feature__title">24 часа в сутки</h3>
+          <p class="feature__text">Не важно, 6 утра или 3 ночи — VOLT работает. Для тех, кто живёт вне стандартного расписания.</p>
+        </div>
+        <div class="feature">
+          <div class="feature__num">03</div>
+          <div class="feature__icon">🎯</div>
+          <h3 class="feature__title">Точность рецепта</h3>
+          <p class="feature__text">Каждый напиток — это протокол. Температура, давление, время. Никакой вкусовщины, только наука.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- STICKY HEADER 2 -->
+    <div class="section-header">
+      <span class="section-header__num">02</span>
+      <span class="section-header__title">Хиты меню</span>
+      <div class="section-header__line"></div>
+      <a href="menu.html" class="section-header__extra" style="color:var(--volt);text-decoration:none;">Всё меню →</a>
+    </div>
+
+    <!-- КАРТОЧКИ (CSS Grid) -->
+    <section class="grid-section">
+      <div class="grid grid--3">
+
+        <div class="card">
+          <span class="card__label card__label--hot">Хит</span>
+          <div class="card__img">☕</div>
+          <div class="card__body">
+            <p class="card__cat">Эспрессо</p>
+            <h3 class="card__name">Volt Double Shot</h3>
+            <p class="card__desc">Двойной эспрессо из купажа Эфиопия + Колумбия. Яркий, с нотой чёрной смородины.</p>
+            <div class="card__foot">
+              <span class="card__price">180 ₽</span>
+              <button class="card__btn">В заказ</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="card__label card__label--new">Новинка</span>
+          <div class="card__img">🧊</div>
+          <div class="card__body">
+            <p class="card__cat">Холодный брю</p>
+            <h3 class="card__name">Night Brew</h3>
+            <p class="card__desc">20 часов холодного заваривания. Шелковистая текстура, без горечи. Подаётся со льдом.</p>
+            <div class="card__foot">
+              <span class="card__price">320 ₽</span>
+              <button class="card__btn">В заказ</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__img">🍵</div>
+          <div class="card__body">
+            <p class="card__cat">Альтернатива</p>
+            <h3 class="card__name">Volt Matcha</h3>
+            <p class="card__desc">Церемониальная матча из Удзи, взбитая с овсяным молоком. Горько-сладкий баланс.</p>
+            <div class="card__foot">
+              <span class="card__price">290 ₽</span>
+              <button class="card__btn">В заказ</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ЦИТАТА (Flexbox центрирование + relative/absolute) -->
+    <section class="quote-block">
+      <div class="quote-inner">
+        <div class="quote-deco">"</div>
+        <p class="quote-text">Хороший кофе —<br>это не привычка.<br>Это <em>решение.</em></p>
+        <p class="quote-author">— Основатель VOLT, 2019</p>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <div class="footer__logo-big">VOLT</div>
+          <p class="footer__tagline">Городские кофейни для тех, кто не останавливается.</p>
+        </div>
+        <div class="footer__col">
+          <h4>Навигация</h4>
+          <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="menu.html">Меню</a></li>
+            <li><a href="about.html">О нас</a></li>
+            <li><a href="contact.html">Найти кофейню</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Меню</h4>
+          <ul>
+            <li><a href="menu.html">Эспрессо</a></li>
+            <li><a href="menu.html">Фильтр</a></li>
+            <li><a href="menu.html">Холодный брю</a></li>
+            <li><a href="menu.html">Еда</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Соцсети</h4>
+          <ul>
+            <li><a href="#">Telegram</a></li>
+            <li><a href="#">VK</a></li>
+            <li><a href="#">Instagram*</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© 2026 VOLT COFFEE. Все права защищены.</span>
+        <span>КТ4 — Многостраничный сайт</span>
+      </div>
+    </footer>
+
+  </div>
+</body>
+</html>
