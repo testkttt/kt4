@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Меню — VOLT COFFEE</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .menu-hero {
+      background: var(--surface);
+      padding: 80px 40px 60px;
+      border-bottom: 3px solid var(--volt);
+      position: relative;        /* ← relative */
+      overflow: hidden;
+    }
+    .menu-hero__bg {
+      position: absolute;        /* ← absolute */
+      top: 50%; right: 40px;
+      transform: translateY(-50%);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 18rem;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(232,255,0,0.05);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+    .menu-hero__tag {
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--volt);
+      margin-bottom: 14px;
+    }
+    .menu-hero__title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 8vw, 7rem);
+      letter-spacing: 0.04em;
+      line-height: 0.92;
+      color: var(--text);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Фильтры */
+    .filter-bar {
+      padding: 16px 40px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .filter-btn {
+      padding: 6px 16px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--volt);
+      color: #000;
+      border-color: var(--volt);
+    }
+
+    /* Большая карточка (span 2) */
+    .card--wide {
+      grid-column: span 2;
+    }
+    .card--wide .card__img {
+      font-size: 6rem;
+    }
+
+    @media (max-width: 900px) {
+      .card--wide { grid-column: span 1; }
+      .menu-hero { padding: 56px 20px 40px; }
+    }
+    @media (max-width: 600px) { .filter-bar { padding: 12px 20px; } }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="index.html" class="nav__logo">VOLT</a>
+    <ul class="nav__links">
+      <li><a href="index.html">Главная</a></li>
+      <li><a href="menu.html" class="active">Меню</a></li>
+      <li><a href="about.html">О нас</a></li>
+      <li><a href="contact.html">Найти кофейню</a></li>
+      <li><a href="menu.html" class="nav__cta">Заказать</a></li>
+    </ul>
+  </nav>
+
+  <div class="page">
+
+    <!-- HERO МЕНЮ (relative + absolute) -->
+    <section class="menu-hero">
+      <div class="menu-hero__bg">MENU</div>
+      <p class="menu-hero__tag">VOLT Coffee — Сезон 2026</p>
+      <h1 class="menu-hero__title">ПОЛНОЕ<br>МЕНЮ</h1>
+    </section>
+
+    <!-- TICKER -->
+    <div class="ticker">
+      <div class="ticker__inner">
+        <span class="ticker__item">Эспрессо · 180 ₽</span><span class="ticker__sep">✦</span>
+        <span class="ticker__item">Капучино · 240 ₽</span><span class="ticker__sep">✦</span>
+        <span class="ticker__item">Флэт уайт · 260 ₽</span><span class="ticker__sep">✦</span>
+        <span class="ticker__item">Cold Brew · 320 ₽</span><span class="ticker__sep">✦</span>
+        <span class="ticker__item">Матча · 290 ₽</span><span class="ticker__sep">✦</span>
+        <span class="ticker__item">Эспрессо · 180 ₽</span><span class="ticker__sep">✦</span>
+        <span class="ticker__item">Капучино · 240 ₽</span><span class="ticker__sep">✦</span>
+        <span class="ticker__item">Флэт уайт · 260 ₽</span><span class="ticker__sep">✦</span>
+        <span class="ticker__item">Cold Brew · 320 ₽</span><span class="ticker__sep">✦</span>
+        <span class="ticker__item">Матча · 290 ₽</span><span class="ticker__sep">✦</span>
+      </div>
+    </div>
+
+    <!-- ФИЛЬТРЫ -->
+    <div class="filter-bar">
+      <button class="filter-btn active">Всё</button>
+      <button class="filter-btn">Эспрессо</button>
+      <button class="filter-btn">Фильтр</button>
+      <button class="filter-btn">Холодный</button>
+      <button class="filter-btn">Альтернатива</button>
+      <button class="filter-btn">Еда</button>
+    </div>
+
+    <!-- STICKY HEADER -->
+    <div class="section-header">
+      <span class="section-header__num">01</span>
+      <span class="section-header__title">Горячие напитки</span>
+      <div class="section-header__line"></div>
+      <span class="section-header__extra">6 позиций</span>
+    </div>
+
+    <!-- ГОРЯЧИЕ (CSS Grid) -->
+    <section class="grid-section">
+      <div class="grid grid--3" style="grid-template-columns: repeat(2, 1fr);">
+
+        <div class="card" style="grid-column: span 2;">
+          <span class="card__label card__label--hot">Хит</span>
+          <div class="card__img" style="font-size:6rem;">☕</div>
+          <div class="card__body">
+            <p class="card__cat">Эспрессо</p>
+            <h3 class="card__name">Volt Double Shot</h3>
+            <p class="card__desc">Двойной эспрессо из купажа Эфиопия + Колумбия. Яркая кислотность, нота чёрной смородины и горького шоколада.</p>
+            <div class="card__foot"><span class="card__price">180 ₽</span><button class="card__btn">В заказ</button></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__img">🥛</div>
+          <div class="card__body">
+            <p class="card__cat">Эспрессо</p>
+            <h3 class="card__name">Флэт уайт</h3>
+            <p class="card__desc">Двойной рестретто, микропена. Насыщенный и бархатистый.</p>
+            <div class="card__foot"><span class="card__price">260 ₽</span><button class="card__btn">В заказ</button></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__img">☕</div>
+          <div class="card__body">
+            <p class="card__cat">Эспрессо</p>
+            <h3 class="card__name">Капучино</h3>
+            <p class="card__desc">Классика. Равные части эспрессо, молока и пены. 180 мл.</p>
+            <div class="card__foot"><span class="card__price">240 ₽</span><button class="card__btn">В заказ</button></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="card__label card__label--new">Новое</span>
+          <div class="card__img">🫖</div>
+          <div class="card__body">
+            <p class="card__cat">Фильтр</p>
+            <h3 class="card__name">Pour Over Yirgacheffe</h3>
+            <p class="card__desc">Эфиопская Иргачиф. Черника, жасмин, лёгкое тело.</p>
+            <div class="card__foot"><span class="card__price">340 ₽</span><button class="card__btn">В заказ</button></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__img">🍵</div>
+          <div class="card__body">
+            <p class="card__cat">Альтернатива</p>
+            <h3 class="card__name">Volt Matcha Latte</h3>
+            <p class="card__desc">Церемониальная матча, овсяное молоко. Горько-сладкий баланс.</p>
+            <div class="card__foot"><span class="card__price">290 ₽</span><button class="card__btn">В заказ</button></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__img">🌿</div>
+          <div class="card__body">
+            <p class="card__cat">Альтернатива</p>
+            <h3 class="card__name">Turmeric Latte</h3>
+            <p class="card__desc">Куркума, имбирь, кокосовое молоко. Без кофеина.</p>
+            <div class="card__foot"><span class="card__price">270 ₽</span><button class="card__btn">В заказ</button></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- STICKY HEADER 2 -->
+    <div class="section-header">
+      <span class="section-header__num">02</span>
+      <span class="section-header__title">Холодные напитки</span>
+      <div class="section-header__line"></div>
+      <span class="section-header__extra">3 позиции</span>
+    </div>
+
+    <section class="grid-section">
+      <div class="grid grid--3">
+
+        <div class="card">
+          <span class="card__label card__label--new">Новинка</span>
+          <div class="card__img">🧊</div>
+          <div class="card__body">
+            <p class="card__cat">Холодный брю</p>
+            <h3 class="card__name">Night Brew</h3>
+            <p class="card__desc">20 часов холодного заваривания, подаётся со льдом. Без горечи.</p>
+            <div class="card__foot"><span class="card__price">320 ₽</span><button class="card__btn">В заказ</button></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="card__label card__label--hot">Хит</span>
+          <div class="card__img">🥤</div>
+          <div class="card__body">
+            <p class="card__cat">Айс</p>
+            <h3 class="card__name">Iced Flat White</h3>
+            <p class="card__desc">Рестретто, лёд, цельное молоко. Быстро и мощно.</p>
+            <div class="card__foot"><span class="card__price">280 ₽</span><button class="card__btn">В заказ</button></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__img">🧋</div>
+          <div class="card__body">
+            <p class="card__cat">Холодный</p>
+            <h3 class="card__name">Iced Matcha</h3>
+            <p class="card__desc">Матча, лёд, кокосовое молоко. Освежает и бодрит.</p>
+            <div class="card__foot"><span class="card__price">300 ₽</span><button class="card__btn">В заказ</button></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- STICKY HEADER 3 -->
+    <div class="section-header">
+      <span class="section-header__num">03</span>
+      <span class="section-header__title">Еда</span>
+      <div class="section-header__line"></div>
+      <span class="section-header__extra">3 позиции</span>
+    </div>
+
+    <section class="grid-section">
+      <div class="grid grid--3">
+
+        <div class="card">
+          <div class="card__img">🥐</div>
+          <div class="card__body">
+            <p class="card__cat">Выпечка</p>
+            <h3 class="card__name">Круассан с маслом</h3>
+            <p class="card__desc">Слоёный, масляный, хрустящий. Доставка из пекарни каждое утро.</p>
+            <div class="card__foot"><span class="card__price">180 ₽</span><button class="card__btn">В заказ</button></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="card__label card__label--ltd">Лимит</span>
+          <div class="card__img">🍫</div>
+          <div class="card__body">
+            <p class="card__cat">Десерт</p>
+            <h3 class="card__name">Brownie Volt</h3>
+            <p class="card__desc">Тёмный шоколад 72%, морская соль. Ограниченная партия.</p>
+            <div class="card__foot"><span class="card__price">220 ₽</span><button class="card__btn">В заказ</button></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__img">🥪</div>
+          <div class="card__body">
+            <p class="card__cat">Сэндвич</p>
+            <h3 class="card__name">BLTV</h3>
+            <p class="card__desc">Бекон, латук, томат, чеддер, соус вольт. Горячий, быстрый.</p>
+            <div class="card__foot"><span class="card__price">350 ₽</span><button class="card__btn">В заказ</button></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <div class="footer__logo-big">VOLT</div>
+          <p class="footer__tagline">Городские кофейни для тех, кто не останавливается.</p>
+        </div>
+        <div class="footer__col">
+          <h4>Навигация</h4>
+          <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="menu.html">Меню</a></li>
+            <li><a href="about.html">О нас</a></li>
+            <li><a href="contact.html">Найти кофейню</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© 2026 VOLT COFFEE. Все права защищены.</span>
+        <span>КТ4 — Многостраничный сайт</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    // Реальная фильтрация карточек по категории
+    const filterMap = {
+      'Всё':         null,
+      'Эспрессо':    'Эспрессо',
+      'Фильтр':      'Фильтр',
+      'Холодный':    ['Холодный брю', 'Айс', 'Холодный'],
+      'Альтернатива':'Альтернатива',
+      'Еда':         ['Выпечка', 'Десерт', 'Сэндвич'],
+    };
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const key = btn.textContent.trim();
+        const target = filterMap[key];
+
+        document.querySelectorAll('.card').forEach(card => {
+          const cat = card.querySelector('.card__cat')?.textContent.trim();
+          if (!target) {
+            card.style.display = '';
+          } else {
+            const match = Array.isArray(target) ? target.includes(cat) : cat === target;
+            card.style.display = match ? '' : 'none';
+          }
+        });
+
+        // Скрывать пустые section-header если в секции нет видимых карточек
+        document.querySelectorAll('.grid').forEach(grid => {
+          const visible = [...grid.querySelectorAll('.card')].some(c => c.style.display !== 'none');
+          const section = grid.closest('section');
+          const header = section?.previousElementSibling;
+          if (header?.classList.contains('section-header')) {
+            header.style.display = visible ? '' : 'none';
+          }
+          if (section) section.style.display = visible ? '' : 'none';
+        });
+      });
+    });
+  </script>
+</body>
+</html>
