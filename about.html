@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>О нас — VOLT COFFEE</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ── Манифест ── */
+    .manifesto {
+      padding: 100px 40px;
+      position: relative;       /* ← relative */
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+    .manifesto__bg {
+      position: absolute;       /* ← absolute */
+      top: 0; left: 0; right: 0; bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22vw;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(232,255,0,0.04);
+      pointer-events: none;
+      user-select: none;
+      line-height: 1;
+    }
+    .manifesto__content {
+      position: relative;       /* выше absolute-фона */
+      z-index: 1;
+      max-width: 760px;
+    }
+    .manifesto__label {
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--volt);
+      margin-bottom: 24px;
+    }
+    .manifesto__text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 5.5rem);
+      letter-spacing: 0.03em;
+      line-height: 1;
+      color: var(--text);
+    }
+    .manifesto__text em { color: var(--volt); font-style: normal; }
+    .manifesto__sub {
+      margin-top: 36px;
+      font-size: 0.88rem;
+      color: var(--muted);
+      max-width: 480px;
+      line-height: 1.8;
+    }
+
+    /* ── Хронология ── */
+    .timeline {
+      padding: 80px 40px;
+      background: var(--surface);
+    }
+    .timeline__list {
+      max-width: 720px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .timeline__item {
+      display: flex;
+      gap: 32px;
+      padding: 32px 0;
+      border-bottom: 1px solid var(--border);
+      position: relative;       /* ← relative */
+    }
+    .timeline__item:last-child { border-bottom: none; }
+    .timeline__year {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      letter-spacing: 0.04em;
+      color: var(--volt);
+      line-height: 1;
+      flex-shrink: 0;
+      width: 120px;
+    }
+    .timeline__dot {
+      position: absolute;       /* ← absolute */
+      left: 124px; top: 40px;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--volt);
+      box-shadow: 0 0 12px var(--volt-glow);
+      transform: translateX(-50%);
+    }
+    .timeline__body { padding-left: 24px; }
+    .timeline__title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .timeline__text { font-size: 0.82rem; color: var(--muted); line-height: 1.7; }
+
+    /* ── Команда ── */
+    .team { padding: 80px 40px; }
+    .team__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      max-width: 960px;
+      margin: 0 auto;
+      background: var(--border);
+    }
+    .member {
+      background: var(--card);
+      padding: 32px 24px;
+      text-align: center;
+      position: relative;       /* ← relative */
+      overflow: hidden;
+      transition: background 0.2s;
+    }
+    .member:hover { background: #1f1f1f; }
+    .member__glow {
+      position: absolute;       /* ← absolute */
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 60px; height: 2px;
+      background: var(--volt);
+      box-shadow: 0 0 12px var(--volt-glow);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .member:hover .member__glow { opacity: 1; }
+    .member__avatar {
+      font-size: 3rem;
+      margin-bottom: 16px;
+    }
+    .member__name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .member__role { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
+
+    /* ── Цифры ── */
+    .numbers {
+      background: var(--volt);
+      padding: 64px 40px;
+      display: flex;            /* Flexbox — центрирование */
+      align-items: center;
+      justify-content: center;
+    }
+    .numbers__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      max-width: 900px;
+      width: 100%;
+    }
+    .number-item {
+      text-align: center;
+      padding: 0 24px;
+      border-right: 1px solid rgba(0,0,0,0.15);
+    }
+    .number-item:last-child { border-right: none; }
+    .number-item__val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4rem;
+      letter-spacing: 0;
+      color: #000;
+      line-height: 1;
+    }
+    .number-item__label { font-size: 0.72rem; color: rgba(0,0,0,0.55); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 6px; }
+
+    @media (max-width: 900px) {
+      .team__grid { grid-template-columns: repeat(2, 1fr); }
+      .numbers__grid { grid-template-columns: repeat(2, 1fr); }
+      .number-item { border-right: none; border-bottom: 1px solid rgba(0,0,0,0.15); padding: 24px; }
+    }
+    @media (max-width: 600px) {
+      .manifesto { padding: 64px 20px; }
+      .timeline { padding: 48px 20px; }
+      .team { padding: 48px 20px; }
+      .numbers { padding: 48px 20px; }
+      .timeline__item { flex-direction: column; gap: 8px; }
+      .timeline__year { width: auto; }
+      .timeline__dot { display: none; }
+      .timeline__body { padding-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="index.html" class="nav__logo">VOLT</a>
+    <ul class="nav__links">
+      <li><a href="index.html">Главная</a></li>
+      <li><a href="menu.html">Меню</a></li>
+      <li><a href="about.html" class="active">О нас</a></li>
+      <li><a href="contact.html">Найти кофейню</a></li>
+      <li><a href="menu.html" class="nav__cta">Заказать</a></li>
+    </ul>
+  </nav>
+
+  <div class="page">
+
+    <!-- МАНИФЕСТ (relative + absolute) -->
+    <section class="manifesto">
+      <div class="manifesto__bg">VOLT</div>
+      <div class="manifesto__content">
+        <p class="manifesto__label">Наш манифест</p>
+        <h1 class="manifesto__text">МЫ НЕ ПРОДАЁМ<br>КОФЕ. МЫ ПРОДАЁМ<br><em>ЭНЕРГИЮ.</em></h1>
+        <p class="manifesto__sub">VOLT основан в 2019 году тремя людьми, которые верили, что хорошая кофейня — это не место, а состояние. Мы хотели создать пространство без компромиссов: честный продукт, прямые поставки, работа 24 часа.</p>
+      </div>
+    </section>
+
+    <!-- ЧИСЛА (Flexbox центрирование) -->
+    <section class="numbers">
+      <div class="numbers__grid">
+        <div class="number-item"><div class="number-item__val">3</div><div class="number-item__label">Точки в Москве</div></div>
+        <div class="number-item"><div class="number-item__val">24/7</div><div class="number-item__label">Без выходных</div></div>
+        <div class="number-item"><div class="number-item__val">18</div><div class="number-item__label">Позиций в меню</div></div>
+        <div class="number-item"><div class="number-item__val">5</div><div class="number-item__label">Стран происхождения зерна</div></div>
+      </div>
+    </section>
+
+    <!-- STICKY HEADER -->
+    <div class="section-header">
+      <span class="section-header__num">01</span>
+      <span class="section-header__title">История</span>
+      <div class="section-header__line"></div>
+    </div>
+
+    <!-- ХРОНОЛОГИЯ (relative + absolute) -->
+    <section class="timeline">
+      <div class="timeline__list">
+        <div class="timeline__item">
+          <div class="timeline__year">2019</div>
+          <div class="timeline__dot"></div>
+          <div class="timeline__body">
+            <h3 class="timeline__title">Первая точка на Курской</h3>
+            <p class="timeline__text">Открылись в подвале делового центра. 12 посадочных мест, один эспрессо-автомат и большая идея. За первый месяц — очередь до лестницы.</p>
+          </div>
+        </div>
+        <div class="timeline__item">
+          <div class="timeline__year">2021</div>
+          <div class="timeline__dot"></div>
+          <div class="timeline__body">
+            <h3 class="timeline__title">Собственная обжарка</h3>
+            <p class="timeline__text">Купили ростер Probat 25 кг. Теперь каждая партия — наша. Прямые контракты с фермами в Эфиопии и Колумбии.</p>
+          </div>
+        </div>
+        <div class="timeline__item">
+          <div class="timeline__year">2023</div>
+          <div class="timeline__dot"></div>
+          <div class="timeline__body">
+            <h3 class="timeline__title">Режим 24/7</h3>
+            <p class="timeline__text">Ввели круглосуточный режим на всех точках. Мы первые в городе, кто работает без ночного перерыва — и это оказалось именно тем, чего ждал город.</p>
+          </div>
+        </div>
+        <div class="timeline__item">
+          <div class="timeline__year">2026</div>
+          <div class="timeline__dot"></div>
+          <div class="timeline__body">
+            <h3 class="timeline__title">Три точки, новое меню</h3>
+            <p class="timeline__text">Открылась третья кофейня на Флаконе. Обновлённое меню с сезонными позициями. Следующая остановка — Питер.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STICKY HEADER 2 -->
+    <div class="section-header">
+      <span class="section-header__num">02</span>
+      <span class="section-header__title">Команда</span>
+      <div class="section-header__line"></div>
+    </div>
+
+    <!-- КОМАНДА (CSS Grid + relative/absolute) -->
+    <section class="team">
+      <div class="team__grid">
+        <div class="member">
+          <div class="member__glow"></div>
+          <div class="member__avatar">👤</div>
+          <div class="member__name">Артём Волков</div>
+          <div class="member__role">Основатель · CEO</div>
+        </div>
+        <div class="member">
+          <div class="member__glow"></div>
+          <div class="member__avatar">👤</div>
+          <div class="member__name">Дарья Смит</div>
+          <div class="member__role">Head of Coffee</div>
+        </div>
+        <div class="member">
+          <div class="member__glow"></div>
+          <div class="member__avatar">👤</div>
+          <div class="member__name">Илья Кравцов</div>
+          <div class="member__role">Ростмастер</div>
+        </div>
+        <div class="member">
+          <div class="member__glow"></div>
+          <div class="member__avatar">👤</div>
+          <div class="member__name">Аня Блок</div>
+          <div class="member__role">Дизайн · Бренд</div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <div class="footer__logo-big">VOLT</div>
+          <p class="footer__tagline">Городские кофейни для тех, кто не останавливается.</p>
+        </div>
+        <div class="footer__col">
+          <h4>Навигация</h4>
+          <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="menu.html">Меню</a></li>
+            <li><a href="about.html">О нас</a></li>
+            <li><a href="contact.html">Найти кофейню</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© 2026 VOLT COFFEE. Все права защищены.</span>
+        <span>КТ4 — Многостраничный сайт</span>
+      </div>
+    </footer>
+
+  </div>
+</body>
+</html>
