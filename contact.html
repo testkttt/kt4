@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Найти кофейню — VOLT COFFEE</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ── Три точки на карте ── */
+    .locations {
+      padding: 72px 40px;
+      display: flex;             /* Flexbox — центрирование */
+      justify-content: center;
+    }
+    .locations__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      max-width: 1100px;
+      width: 100%;
+      background: var(--border);
+    }
+    .location {
+      background: var(--card);
+      padding: 40px 32px;
+      position: relative;        /* ← relative */
+      overflow: hidden;
+      transition: background 0.2s;
+    }
+    .location:hover { background: #1f1f1f; }
+    .location__accent {
+      position: absolute;        /* ← absolute */
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--volt);
+      box-shadow: 0 0 14px var(--volt-glow);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.35s cubic-bezier(.16,1,.3,1);
+    }
+    .location:hover .location__accent { transform: scaleX(1); }
+
+    .location__num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4rem;
+      letter-spacing: 0.04em;
+      color: rgba(232,255,0,0.08);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .location__name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .location__area {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--volt);
+      margin-bottom: 24px;
+    }
+    .location__info {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .location__row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .location__icon { font-size: 1rem; flex-shrink: 0; margin-top: 2px; }
+    .location__detail { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+    .location__hours {
+      margin-top: 24px;
+      padding: 14px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .location__hours-title {
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .location__hours-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.06em;
+      color: var(--volt);
+    }
+
+    /* ── Карта-заглушка ── */
+    .map-placeholder {
+      height: 340px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;  /* Flexbox */
+      flex-direction: column;
+      gap: 14px;
+      position: relative;       /* ← relative */
+      overflow: hidden;
+    }
+    .map-placeholder__bg {
+      position: absolute;       /* ← absolute */
+      inset: 0;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: repeat(6, 1fr);
+      opacity: 0.04;
+    }
+    .map-placeholder__bg span {
+      border: 1px solid var(--volt);
+    }
+    .map-placeholder__icon { font-size: 3rem; position: relative; z-index: 1; }
+    .map-placeholder__text {
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Форма ── */
+    .contact-form-section {
+      padding: 72px 40px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      display: flex;             /* Flexbox — центрирование */
+      justify-content: center;
+    }
+    .contact-form-inner {
+      max-width: 640px;
+      width: 100%;
+    }
+    .form-head {
+      margin-bottom: 36px;
+    }
+    .form-head__label {
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--volt);
+      margin-bottom: 12px;
+    }
+    .form-head__title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      letter-spacing: 0.04em;
+      color: var(--text);
+      line-height: 1;
+    }
+    .form-group { margin-bottom: 18px; }
+    .form-group label {
+      display: block;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.85rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--volt);
+      box-shadow: 0 0 0 1px var(--volt);
+    }
+    .form-group select option { background: var(--bg); }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-row { display: flex; gap: 16px; }
+    .form-row .form-group { flex: 1; }
+
+    @media (max-width: 900px) {
+      .locations__grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .locations { padding: 48px 20px; }
+      .contact-form-section { padding: 48px 20px; }
+      .form-row { flex-direction: column; gap: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="index.html" class="nav__logo">VOLT</a>
+    <ul class="nav__links">
+      <li><a href="index.html">Главная</a></li>
+      <li><a href="menu.html">Меню</a></li>
+      <li><a href="about.html">О нас</a></li>
+      <li><a href="contact.html" class="active">Найти кофейню</a></li>
+      <li><a href="menu.html" class="nav__cta">Заказать</a></li>
+    </ul>
+  </nav>
+
+  <div class="page">
+
+    <!-- STICKY HEADER -->
+    <div class="section-header">
+      <span class="section-header__num">01</span>
+      <span class="section-header__title">Наши кофейни</span>
+      <div class="section-header__line"></div>
+      <span class="section-header__extra">3 точки · Москва</span>
+    </div>
+
+    <!-- ТРИ ТОЧКИ (CSS Grid + relative/absolute) -->
+    <section class="locations">
+      <div class="locations__grid">
+
+        <div class="location">
+          <div class="location__accent"></div>
+          <div class="location__num">01</div>
+          <h3 class="location__name">VOLT KURSKAYA</h3>
+          <p class="location__area">Центр · Курская</p>
+          <div class="location__info">
+            <div class="location__row">
+              <span class="location__icon">📍</span>
+              <span class="location__detail">ул. Земляной Вал, 9<br>БЦ «Деловой квартал», цоколь</span>
+            </div>
+            <div class="location__row">
+              <span class="location__icon">🚇</span>
+              <span class="location__detail">Курская · 2 мин пешком</span>
+            </div>
+          </div>
+          <div class="location__hours">
+            <div class="location__hours-title">Режим работы</div>
+            <div class="location__hours-val">24 / 7</div>
+          </div>
+        </div>
+
+        <div class="location">
+          <div class="location__accent"></div>
+          <div class="location__num">02</div>
+          <h3 class="location__name">VOLT PATRIKI</h3>
+          <p class="location__area">Патриаршие пруды</p>
+          <div class="location__info">
+            <div class="location__row">
+              <span class="location__icon">📍</span>
+              <span class="location__detail">М. Спиридоновка, 12<br>Первый этаж, со двора</span>
+            </div>
+            <div class="location__row">
+              <span class="location__icon">🚇</span>
+              <span class="location__detail">Маяковская · 8 мин пешком</span>
+            </div>
+          </div>
+          <div class="location__hours">
+            <div class="location__hours-title">Режим работы</div>
+            <div class="location__hours-val">24 / 7</div>
+          </div>
+        </div>
+
+        <div class="location">
+          <div class="location__accent"></div>
+          <div class="location__num">03</div>
+          <h3 class="location__name">VOLT FLACON</h3>
+          <p class="location__area">Дизайн-завод Флакон</p>
+          <div class="location__info">
+            <div class="location__row">
+              <span class="location__icon">📍</span>
+              <span class="location__detail">ул. Большая Новодмитровская, 36<br>Флакон, корпус 4</span>
+            </div>
+            <div class="location__row">
+              <span class="location__icon">🚇</span>
+              <span class="location__detail">Дмитровская · 10 мин пешком</span>
+            </div>
+          </div>
+          <div class="location__hours">
+            <div class="location__hours-title">Режим работы</div>
+            <div class="location__hours-val">24 / 7</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- КАРТА (relative + absolute для сетки) -->
+    <div class="map-placeholder">
+      <div class="map-placeholder__bg" id="mapGrid"></div>
+      <div class="map-placeholder__icon">🗺️</div>
+      <p class="map-placeholder__text">Интерактивная карта</p>
+    </div>
+
+    <!-- STICKY HEADER 2 -->
+    <div class="section-header">
+      <span class="section-header__num">02</span>
+      <span class="section-header__title">Написать нам</span>
+      <div class="section-header__line"></div>
+    </div>
+
+    <!-- ФОРМА (Flexbox центрирование) -->
+    <section class="contact-form-section">
+      <div class="contact-form-inner">
+        <div class="form-head">
+          <p class="form-head__label">Обратная связь</p>
+          <h2 class="form-head__title">ЕСТЬ<br>ВОПРОС?</h2>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Имя</label>
+            <input type="text" placeholder="Ваше имя"/>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="your@email.com"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Точка</label>
+          <select>
+            <option>VOLT KURSKAYA</option>
+            <option>VOLT PATRIKI</option>
+            <option>VOLT FLACON</option>
+            <option>Общий вопрос</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Тема</label>
+          <select>
+            <option>Вопрос о меню</option>
+            <option>Аренда / мероприятие</option>
+            <option>Сотрудничество</option>
+            <option>Отзыв</option>
+            <option>Другое</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Сообщение</label>
+          <textarea placeholder="Напишите всё, что считаете нужным…"></textarea>
+        </div>
+
+        <button class="btn btn--volt" style="width:100%;justify-content:center;"
+          onclick="this.textContent='✔ ОТПРАВЛЕНО'; this.disabled=true; this.style.opacity=0.6;">
+          Отправить
+        </button>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <div class="footer__logo-big">VOLT</div>
+          <p class="footer__tagline">Городские кофейни для тех, кто не останавливается.</p>
+        </div>
+        <div class="footer__col">
+          <h4>Навигация</h4>
+          <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="menu.html">Меню</a></li>
+            <li><a href="about.html">О нас</a></li>
+            <li><a href="contact.html">Найти кофейню</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Точки</h4>
+          <ul>
+            <li><a href="#">Курская</a></li>
+            <li><a href="#">Патриаршие</a></li>
+            <li><a href="#">Флакон</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© 2026 VOLT COFFEE. Все права защищены.</span>
+        <span>КТ4 — Многостраничный сайт</span>
+      </div>
+    </footer>
+
+  </div>
+  <script>
+    // Генерация сетки карты без document.write
+    const mapGrid = document.getElementById('mapGrid');
+    if (mapGrid) {
+      mapGrid.innerHTML = Array(72).fill('<span></span>').join('');
+    }
+  </script>
+</body>
+</html>
